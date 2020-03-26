@@ -72,14 +72,26 @@ d3.csv("data/data.csv").then(function(stateData) {
     .attr("stroke-width", "1")
     .attr("stroke", "black");
 
+  // Append text to circles
+  // ==============================
+  var circlesGroup = chartGroup.selectAll()
+      .data(stateData)
+      .enter()
+      .append("text")
+      .attr("x", d => xLinearScale(d.poverty))
+      .attr("y", d => yLinearScale(d.healthcare))
+      .style("font-size", "10px")
+      .style("text-anchor", "middle")
+      .style('fill', 'black')
+      .text(d => (d.abbr));
+
   //Initialize tool tip
   //==============================
   var toolTip = d3.tip()
     .attr("class", "tooltip")
     .offset([80, -60])
     .html(function(d) {
-      return (`<strong>${d.state}<strong><br>Poverty: ${d.poverty}
-      <br>Lacks Healthcare: ${d.healthcare}`);
+      return (`Poverty: ${d.poverty}% <br>Lacks Healthcare: ${d.healthcare}%`);
     });
 
   // Create tooltip in the chart
